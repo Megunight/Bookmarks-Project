@@ -1,13 +1,18 @@
 package ui;
 
+import model.Book;
+import model.Library;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
-
-import static jdk.internal.vm.compiler.word.LocationIdentity.init;
-
 
 //console-based application for library
 public class LibraryApp {
     private Scanner input;
+    private Library library;
+    private List<Book> currentView;
+    private String currentGenre = "all";
 
     public LibraryApp() {
         runLibrary();
@@ -18,10 +23,9 @@ public class LibraryApp {
         String command = null;
 
         init();
-
+        displayMenu();
         while (keepGoing) {
-            displayMenu();
-            command = input.next();
+            command = input.nextLine();
 
             if (command.equalsIgnoreCase("quit")) {
                 keepGoing = false;
@@ -30,6 +34,13 @@ public class LibraryApp {
             }
         }
         System.out.println("Exited successfully");
+    }
+
+    private void init() {
+        library = new Library();
+        input = new Scanner(System.in);
+        currentView = new ArrayList<Book>();
+        currentView.addAll(library.getLibrary());
     }
 
     private void displayMenu() {
@@ -49,27 +60,105 @@ public class LibraryApp {
                 displayMenu();
                 break;
             case "view" :
+                view();
                 break;
             case "genre" :
                 System.out.println("Type the genre you want to sort by");
                 System.out.println("all - for switching back to default view");
+                setCurrentView();
                 break;
             case "add" :
                 System.out.println("Type the title, author, number of pages, number of pages read, and genre of the book separated by commas");
                 System.out.println("eg. : 1984, George Orwell, 328, 28, Dystopian");
+                add();
                 break;
             case "remove" :
                 System.out.println("Type the title of the book you'd like to remove");
+                remove();
                 break;
             case "rate" :
-                System.out.println("Type the title of the book you'd like to rate and the rating as an integer between 1 and 5");
+                System.out.println("Type the title of the book you'd like to rate and the rating as an integer between 0 and 5");
                 System.out.println("eg. : 1984, 5");
+                rate();
                 break;
             case "quit" :
                 break;
             default :
-                System.out.println("Seems like I didn't get that, please try again");
+                System.out.println("Seems like I didn't get that, please try again"); //TODO: can replace with exception
                 break;
         }
+    }
+
+    //TODO: maybe add exception handling for when library is empty or setCurrentView results in empty view
+    private void setCurrentView() {
+        String genre = input.nextLine();
+        currentGenre = genre;
+        setCurrentViewForMethods();
+    }
+
+    private void setCurrentViewForMethods() {
+        currentView = new ArrayList<Book>();
+        currentView.addAll(library.getLibrary());
+
+        if (!currentGenre.equalsIgnoreCase("all")) {
+            currentView.removeIf(book -> !(book.getGenre()).equalsIgnoreCase(currentGenre));
+        }
+    }
+
+    //TODO: exception handling for empty currentView
+    //EFFECTS: prints out to console all the books in currentView with each book's info
+    private void view() {
+        for (Book b: currentView) {
+            System.out.println();
+            System.out.println("Title: " + b.getTitle());
+            System.out.println("Author: " + b.getAuthor());
+            System.out.println("Page Count: " + b.getPageNum());
+            System.out.println("Pages Read: " + b.getPagesRead());
+            System.out.println("Finished: " + b.isCompleted());
+            System.out.println("Genre: " + b.getGenre());
+            System.out.println("Rating: " + b.getRating());
+        }
+    }
+
+    //TODO: exception handling for when bookInfo length is not correct and NumberFormatException for Integer.parseInt
+    private void add() {
+        String userInput = input.nextLine();
+        ArrayList<String> bookInfo = separateInput(userInput);
+        assert bookInfo.size() == 5;
+
+        Book book = new Book(bookInfo.get(0), bookInfo.get(1), Integer.parseInt(bookInfo.get(2)), Integer.parseInt(bookInfo.get(3)), bookInfo.get(4));
+        library.addBook(book);
+        setCurrentViewForMethods();
+    }
+
+    private void remove() {
+        String bookTitle = input.nextLine();
+        library.removeBook(bookTitle);
+        setCurrentViewForMethods();
+    }
+
+    //TODO: NumberFormatException and maybe index exception
+    private void rate() {
+        String userInput = input.nextLine();
+        ArrayList<String> titleRate = separateInput(userInput);
+        assert titleRate.size() == 2;
+
+        int index = library.getIndexofBook(titleRate.get(0));
+        assert index != -1;
+        Book book = library.getLibrary().get(index);
+        book.setRating(Integer.parseInt(titleRate.get(1)));
+        setCurrentViewForMethods();
+    }
+
+    private ArrayList<String> separateInput(String userInput) {
+        String[] split = userInput.split(", ", 0);
+        ArrayList<String> inputs = new ArrayList<String>();
+
+        for (String s : split) {
+            if (!s.isBlank()) {
+                inputs.add(s);
+            }
+        }
+        return inputs;
     }
 }

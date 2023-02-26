@@ -7,7 +7,7 @@ public class Book {
     private int pageNum;
     private int pagesRead;
     private boolean completed;
-    private int rating;
+    private int rating = 0;
     private String genre;
 
     public Book(String title, String author, int pageNum, int pagesRead, String genre) {
@@ -56,7 +56,7 @@ public class Book {
 
     //REQUIRES: rating has to be between 1 and 5
     //MODIFIES: this
-    //EFFECTS: updates rating of object with given int between 1 and 5
+    //EFFECTS: updates rating of object with given int between 0 and 5
     //TODO: add exception handling for integers outside range
     public void setRating(int rating) {
         this.rating = rating;

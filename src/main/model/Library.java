@@ -1,10 +1,11 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // represents a list of book objects
 public class Library {
-    private ArrayList<Book> library;
+    private List<Book> library;
 
     public Library() {
         library = new ArrayList<Book>();
@@ -26,22 +27,19 @@ public class Library {
         }
     }
 
-    public ArrayList<Book> getLibrary() {
+    public List<Book> getLibrary() {
         return library;
     }
 
-    //TODO: put this method in ui instead
-    //EFFECTS: prints out to console all the books in library with each book's info
-    //note: this method is for the console version
-    public void printLibrary() {
-        for (Book b: library) {
-            System.out.println();
-            System.out.println("Title: " + b.getTitle());
-            System.out.println("Author: " + b.getAuthor());
-            System.out.println("Page Count: " + b.getPageNum());
-            System.out.println("Pages Read: " + b.getPagesRead());
-            System.out.println("Finished: " + b.isCompleted());
-            System.out.println("Rating: " + b.getRating());
+    public int getIndexofBook(String bookTitle) {
+        assert library.size() > 0;
+        int index = -1;
+        for (int i = 0; i < library.size(); i++) {
+            if (library.get(i).getTitle().equalsIgnoreCase(bookTitle)) {
+                index = i;
+                break;
+            }
         }
+        return index;
     }
 }
