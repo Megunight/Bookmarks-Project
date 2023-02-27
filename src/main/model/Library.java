@@ -48,7 +48,6 @@ public class Library {
 
     //EFFECTS: returns the index of the book with given parameter in the library
     public int getIndexOfBook(String bookTitle) throws BookNotFoundException {
-        assert library.size() > 0;
         int index = -1;
         for (int i = 0; i < library.size(); i++) {
             if (library.get(i).getTitle().equalsIgnoreCase(bookTitle)) {

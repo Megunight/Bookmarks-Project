@@ -22,6 +22,17 @@ class LibraryTest {
     }
 
     @Test
+    void addBookTestException() throws SameTitleException {
+        library.addBook(b2);
+        boolean exceptionThrown = false;
+        try {
+            library.addBook(b2);
+        } catch (SameTitleException e) {
+            exceptionThrown = true;
+        }
+        assertTrue(exceptionThrown);
+    }
+    @Test
     void removeBookTest() throws BookNotFoundException, SameTitleException {
         library.addBook(b1);
         library.addBook(b2);

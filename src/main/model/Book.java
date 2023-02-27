@@ -6,7 +6,7 @@ public class Book implements Comparable<Book> {
     private final String author;
     private final int pageNum;
     private int pagesRead;
-    private final boolean completed;
+    private boolean completed;
     private int rating = 0;
     private final String genre;
 
@@ -40,6 +40,7 @@ public class Book implements Comparable<Book> {
     //EFFECTS: updates pagesRead with given positive integer
     public void setPagesRead(int pagesRead) {
         this.pagesRead = pagesRead;
+        completed = pagesRead == pageNum;
     }
 
     public boolean isCompleted() {
