@@ -91,7 +91,11 @@ class LibraryTest {
         assertThrows(AssertionError.class, () -> library.setDailyReadingGoal(-1));
         library.setDailyReadingGoal(10);
         assertEquals(10, library.getDailyReadingGoal());
+        library.setDailyReadingGoal(0);
+        assertEquals(0, library.getDailyReadingGoal());
         library.setDailyReadingAccum(10);
         assertEquals(10, library.getDailyReadingAccum());
+        library.setDailyReadingAccum(0);
+        assertEquals(0, library.getDailyReadingAccum());
     }
 }
