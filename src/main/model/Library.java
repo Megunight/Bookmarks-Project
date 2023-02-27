@@ -9,7 +9,7 @@ import java.util.List;
 
 // represents a list of book objects
 public class Library {
-    private List<Book> library;
+    private final List<Book> library;
 
     public Library() {
         library = new ArrayList<Book>();

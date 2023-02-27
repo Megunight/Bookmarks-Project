@@ -2,24 +2,20 @@ package model;
 
 // represents a singular book object that contains various info
 public class Book implements Comparable<Book> {
-    private String title;
-    private String author;
-    private int pageNum;
+    private final String title;
+    private final String author;
+    private final int pageNum;
     private int pagesRead;
-    private boolean completed;
+    private final boolean completed;
     private int rating = 0;
-    private String genre;
+    private final String genre;
 
     public Book(String title, String author, int pageNum, int pagesRead, String genre) {
         this.title = title;
         this.author = author;
         this.pageNum = pageNum;
         this.pagesRead = pagesRead;
-        if (pageNum == pagesRead) {
-            this.completed = true;
-        } else {
-            this.completed = false;
-        }
+        this.completed = pageNum == pagesRead;
         this.genre = genre;
     }
 

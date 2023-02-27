@@ -16,10 +16,13 @@ public class LibraryApp {
     private List<Book> currentView;
     private String currentGenre = "all";
 
+    //EFFECTS: runs the library application
     public LibraryApp() {
         runLibrary();
     }
 
+    //MODIFIES: this
+    //EFFECTS: processes user input
     private void runLibrary() {
         boolean keepGoing = true;
         String command = null;
@@ -38,6 +41,8 @@ public class LibraryApp {
         System.out.println("Exited successfully");
     }
 
+    //MODIFIES: this
+    //EFFECTS: initializes fields
     private void init() {
         library = new Library();
         input = new Scanner(System.in);
@@ -45,6 +50,7 @@ public class LibraryApp {
         currentView.addAll(library.getLibrary());
     }
 
+    //EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("Welcome to your library. To get started, here are the commands:");
         System.out.println("help - displays this menu again");
@@ -56,6 +62,8 @@ public class LibraryApp {
         System.out.println("quit - quit the program");
     }
 
+    //EFFECTS: processes user commands
+    @SuppressWarnings("methodlength")
     private void process(String command) {
         switch (command) {
             case "help":
@@ -70,7 +78,8 @@ public class LibraryApp {
                 setCurrentView();
                 break;
             case "add":
-                System.out.println("Type the title, author, number of pages, number of pages read, and genre of the book separated by commas");
+                System.out.println("Type the title, author, number of pages, number of pages read, "
+                        + "and genre of the book separated by commas");
                 System.out.println("eg. : 1984, George Orwell, 328, 28, Dystopian");
                 try {
                     add();
@@ -83,7 +92,8 @@ public class LibraryApp {
                 remove();
                 break;
             case "rate":
-                System.out.println("Type the title of the book you'd like to rate and the rating as an integer between 0 and 5");
+                System.out.println("Type the title of the book you'd like to rate "
+                        + "and the rating as an integer between 0 and 5");
                 System.out.println("eg. : 1984, 5");
                 try {
                     rate();
@@ -94,17 +104,21 @@ public class LibraryApp {
             case "quit":
                 break;
             default:
-                System.out.println("Seems like I didn't get that, please try again"); //TODO: can replace with exception
+                System.out.println("Seems like I didn't get that, please try again");
                 break;
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: sets the current genre view to input
     private void setCurrentView() {
         String genre = input.nextLine();
         currentGenre = genre;
         setCurrentViewForMethods();
     }
 
+    //MODIFIES: this
+    //EFFECTS: continuation of setCurrentView() for methods that don't require user input
     private void setCurrentViewForMethods() {
         currentView = new ArrayList<Book>();
         currentView.addAll(library.getLibrary());
@@ -116,7 +130,7 @@ public class LibraryApp {
 
     //EFFECTS: prints out to console all the books in currentView with each book's info
     private void view() {
-        for (Book b: currentView) {
+        for (Book b : currentView) {
             System.out.println();
             System.out.println("Title: " + b.getTitle());
             System.out.println("Author: " + b.getAuthor());
@@ -128,12 +142,15 @@ public class LibraryApp {
         }
     }
 
+    //MODIFIES: this
+    //EFFECTS: adds the input information and creates a new book object and inserts it into library
     private void add() throws NumberFormatException, AssertionError {
         String userInput = input.nextLine();
         ArrayList<String> bookInfo = separateInput(userInput);
         assert bookInfo.size() == 5;
 
-        Book book = new Book(bookInfo.get(0), bookInfo.get(1), Integer.parseInt(bookInfo.get(2)), Integer.parseInt(bookInfo.get(3)), bookInfo.get(4));
+        Book book = new Book(bookInfo.get(0), bookInfo.get(1), Integer.parseInt(bookInfo.get(2)),
+                Integer.parseInt(bookInfo.get(3)), bookInfo.get(4));
         try {
             library.addBook(book);
         } catch (SameTitleException e) {
@@ -142,6 +159,8 @@ public class LibraryApp {
         setCurrentViewForMethods();
     }
 
+    //MODIFIES: this
+    //EFFECTS: searches for book with title in library and removes it
     private void remove() {
         String bookTitle = input.nextLine();
         try {
@@ -152,6 +171,8 @@ public class LibraryApp {
         setCurrentViewForMethods();
     }
 
+    //MODIFIES: this and Book
+    //EFFECTS: sets rating for book with given title and calls sortLibrary() to update sort by rating
     private void rate() throws NumberFormatException, AssertionError {
         String userInput = input.nextLine();
         ArrayList<String> titleRate = separateInput(userInput);
@@ -168,6 +189,7 @@ public class LibraryApp {
         }
     }
 
+    //EFFECT: takes user input and separates it by commas into an ArrayList
     private ArrayList<String> separateInput(String userInput) {
         String[] split = userInput.split(", ", 0);
         ArrayList<String> inputs = new ArrayList<String>();
