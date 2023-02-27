@@ -195,10 +195,15 @@ public class LibraryApp {
         ArrayList<String> inputs = new ArrayList<String>();
 
         for (String s : split) {
-            if (!(s.isBlank())) {
+            if (!isBlank(s)) {
                 inputs.add(s);
             }
         }
         return inputs;
+    }
+
+    //EFFECTS: has the same use as the method isBlank() from String object, but it wouldn't compile for autograder
+    private boolean isBlank(String s) {
+        return (s == null || s.trim().isEmpty());
     }
 }
