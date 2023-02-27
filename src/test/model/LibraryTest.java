@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.BookNotFoundException;
+import exceptions.SameTitleException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +22,7 @@ public class LibraryTest {
     }
 
     @Test
-    void removeBookTest() {
+    void removeBookTest() throws BookNotFoundException, SameTitleException {
         library.addBook(b1);
         library.addBook(b2);
         library.addBook(b3);
@@ -31,38 +33,45 @@ public class LibraryTest {
         library.removeBook("interesting");
         assertFalse((library.getLibrary()).contains(b1));
 
-        library.removeBook("Destiny Forged");
+        boolean exceptionThrown = false;
+        try {
+            library.removeBook("Destiny Forged");
+        } catch (BookNotFoundException e) {
+            exceptionThrown = true;
+        }
         assertTrue((library.getLibrary()).contains(b3));
+        assertTrue(exceptionThrown);
     }
 
-    /*
     @Test
-    void printLibraryTest() {
-        library.addBook(b3);
-        library.addBook(b2);
+    void getIndexOfBookTest() throws SameTitleException, BookNotFoundException{
         library.addBook(b1);
+        library.addBook(b2);
+        library.addBook(b3);
 
-        assertEquals("\n" +
-                "Title: Forged Destiny\n" +
-                "Author: Coeur Al'Aran\n" +
-                "Page Count: 3000\n" +
-                "Pages Read: 200\n" +
-                "Finished: false\n" +
-                "Rating: 0\n" +
-                "\n" +
-                "Title: 1984\n" +
-                "Author: George Orwell\n" +
-                "Page Count: 328\n" +
-                "Pages Read: 328\n" +
-                "Finished: true\n" +
-                "Rating: 0\n" +
-                "\n" +
-                "Title: Interesting\n" +
-                "Author: God\n" +
-                "Page Count: 2000\n" +
-                "Pages Read: 0\n" +
-                "Finished: false\n" +
-                "Rating: 0", systemOutRule.getLog());
+        assertEquals(0, library.getIndexOfBook("Interesting"));
+        assertEquals(1, library.getIndexOfBook("1984"));
+        assertEquals(2, library.getIndexOfBook("Forged Destiny"));
+
+        boolean exceptionThrown = false;
+        try {
+            library.getIndexOfBook("God");
+        } catch (BookNotFoundException e) {
+            exceptionThrown = true;
+        }
+        assertTrue(exceptionThrown);
     }
-     */
+
+    @Test
+    void sortLibraryTest() throws SameTitleException, BookNotFoundException {
+        b2.setRating(5);
+        library.addBook(b1);
+        library.addBook(b2);
+        library.addBook(b3);
+        library.sortLibrary();
+
+        assertEquals(0, library.getIndexOfBook("1984"));
+        assertEquals(1, library.getIndexOfBook("Interesting"));
+        assertEquals(2, library.getIndexOfBook("Forged Destiny"));
+    }
 }

@@ -1,5 +1,7 @@
 package ui;
 
+import exceptions.BookNotFoundException;
+import exceptions.SameTitleException;
 import model.Book;
 import model.Library;
 
@@ -56,40 +58,47 @@ public class LibraryApp {
 
     private void process(String command) {
         switch (command) {
-            case "help" :
+            case "help":
                 displayMenu();
                 break;
-            case "view" :
+            case "view":
                 view();
                 break;
-            case "genre" :
+            case "genre":
                 System.out.println("Type the genre you want to sort by");
                 System.out.println("all - for switching back to default view");
                 setCurrentView();
                 break;
-            case "add" :
+            case "add":
                 System.out.println("Type the title, author, number of pages, number of pages read, and genre of the book separated by commas");
                 System.out.println("eg. : 1984, George Orwell, 328, 28, Dystopian");
-                add();
+                try {
+                    add();
+                } catch (RuntimeException | AssertionError e) {
+                    System.out.println("There is a problem with your input");
+                }
                 break;
-            case "remove" :
+            case "remove":
                 System.out.println("Type the title of the book you'd like to remove");
                 remove();
                 break;
-            case "rate" :
+            case "rate":
                 System.out.println("Type the title of the book you'd like to rate and the rating as an integer between 0 and 5");
                 System.out.println("eg. : 1984, 5");
-                rate();
+                try {
+                    rate();
+                } catch (RuntimeException | AssertionError e) {
+                    System.out.println("There is a problem with your input");
+                }
                 break;
-            case "quit" :
+            case "quit":
                 break;
-            default :
+            default:
                 System.out.println("Seems like I didn't get that, please try again"); //TODO: can replace with exception
                 break;
         }
     }
 
-    //TODO: maybe add exception handling for when library is empty or setCurrentView results in empty view
     private void setCurrentView() {
         String genre = input.nextLine();
         currentGenre = genre;
@@ -105,7 +114,6 @@ public class LibraryApp {
         }
     }
 
-    //TODO: exception handling for empty currentView
     //EFFECTS: prints out to console all the books in currentView with each book's info
     private void view() {
         for (Book b: currentView) {
@@ -120,34 +128,44 @@ public class LibraryApp {
         }
     }
 
-    //TODO: exception handling for when bookInfo length is not correct and NumberFormatException for Integer.parseInt
-    private void add() {
+    private void add() throws NumberFormatException, AssertionError {
         String userInput = input.nextLine();
         ArrayList<String> bookInfo = separateInput(userInput);
         assert bookInfo.size() == 5;
 
         Book book = new Book(bookInfo.get(0), bookInfo.get(1), Integer.parseInt(bookInfo.get(2)), Integer.parseInt(bookInfo.get(3)), bookInfo.get(4));
-        library.addBook(book);
+        try {
+            library.addBook(book);
+        } catch (SameTitleException e) {
+            System.out.println(e.getMessage());
+        }
         setCurrentViewForMethods();
     }
 
     private void remove() {
         String bookTitle = input.nextLine();
-        library.removeBook(bookTitle);
+        try {
+            library.removeBook(bookTitle);
+        } catch (BookNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
         setCurrentViewForMethods();
     }
 
-    //TODO: NumberFormatException and maybe index exception
-    private void rate() {
+    private void rate() throws NumberFormatException, AssertionError {
         String userInput = input.nextLine();
         ArrayList<String> titleRate = separateInput(userInput);
         assert titleRate.size() == 2;
 
-        int index = library.getIndexofBook(titleRate.get(0));
-        assert index != -1;
-        Book book = library.getLibrary().get(index);
-        book.setRating(Integer.parseInt(titleRate.get(1)));
-        setCurrentViewForMethods();
+        try {
+            int index = library.getIndexOfBook(titleRate.get(0));
+            Book book = library.getLibrary().get(index);
+            book.setRating(Integer.parseInt(titleRate.get(1)));
+            library.sortLibrary();
+            setCurrentViewForMethods();
+        } catch (BookNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     private ArrayList<String> separateInput(String userInput) {

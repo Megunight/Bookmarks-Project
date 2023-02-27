@@ -1,7 +1,7 @@
 package model;
 
 // represents a singular book object that contains various info
-public class Book {
+public class Book implements Comparable<Book> {
     private String title;
     private String author;
     private int pageNum;
@@ -54,11 +54,10 @@ public class Book {
         return rating;
     }
 
-    //REQUIRES: rating has to be between 1 and 5
     //MODIFIES: this
     //EFFECTS: updates rating of object with given int between 0 and 5
-    //TODO: add exception handling for integers outside range
     public void setRating(int rating) {
+        assert (rating >= 0 && rating <= 5);
         this.rating = rating;
     }
 
@@ -66,4 +65,8 @@ public class Book {
         return genre;
     }
 
+    @Override
+    public int compareTo(Book o) {
+        return Integer.compare(getRating(), o.getRating());
+    }
 }

@@ -1,6 +1,10 @@
 package model;
 
+import exceptions.BookNotFoundException;
+import exceptions.SameTitleException;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 // represents a list of book objects
@@ -11,19 +15,30 @@ public class Library {
         library = new ArrayList<Book>();
     }
 
-    public void addBook(Book book) {
+    //MODIFIES: this
+    //EFFECTS: adds a book to the library
+    public void addBook(Book book) throws SameTitleException {
+        for (Book b: library) {
+            if (b.getTitle().equalsIgnoreCase(book.getTitle())) {
+                throw new SameTitleException("Book with title already exists");
+            }
+        }
         library.add(book);
     }
 
-    //REQUIRES: bookTitle to be a title of a book in the library
     //MODIFIES: this
     //EFFECTS: removes the book with the given title from the library
     //TODO: add exception handling for when given a title that is not in the library
-    public void removeBook(String bookTitle) {
+    public void removeBook(String bookTitle) throws BookNotFoundException {
+        boolean cannotFind = true;
         for (Book b: library) {
             if (bookTitle.equalsIgnoreCase(b.getTitle())) {
                 library.remove(b);
+                cannotFind = false;
             }
+        }
+        if (cannotFind) {
+            throw new BookNotFoundException("Book with title cannot be found within the library");
         }
     }
 
@@ -31,7 +46,8 @@ public class Library {
         return library;
     }
 
-    public int getIndexofBook(String bookTitle) {
+    //EFFECTS: returns the index of the book with given parameter in the library
+    public int getIndexOfBook(String bookTitle) throws BookNotFoundException {
         assert library.size() > 0;
         int index = -1;
         for (int i = 0; i < library.size(); i++) {
@@ -40,6 +56,15 @@ public class Library {
                 break;
             }
         }
+        if (index == -1) {
+            throw new BookNotFoundException("Book with title cannot be found within the library");
+        }
         return index;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sorts the library in terms of rating in descending order
+    public void sortLibrary() {
+        Collections.sort(library, Collections.reverseOrder());
     }
 }
