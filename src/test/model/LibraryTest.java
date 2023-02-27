@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LibraryTest {
+class LibraryTest {
     private Library library;
     private Book b1;
     private Book b2;
