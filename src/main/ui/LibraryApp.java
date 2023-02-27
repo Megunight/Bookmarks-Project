@@ -195,7 +195,7 @@ public class LibraryApp {
         ArrayList<String> inputs = new ArrayList<String>();
 
         for (String s : split) {
-            if (!s.isBlank()) {
+            if (!(s.isBlank())) {
                 inputs.add(s);
             }
         }
