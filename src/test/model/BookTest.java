@@ -68,5 +68,18 @@ class BookTest {
         assertEquals(0, b2.compareTo(b3));
     }
 
+    @Test
+    void pagesReadTodayTest() {
+        assertThrows(AssertionError.class, () -> b1.setPagesReadToday(-1));
+        assertEquals(0, b1.getPagesReadToday());
+        b1.setPagesReadToday(10);
+        assertEquals(10, b1.getPagesReadToday());
+    }
 
+    @Test
+    void daysLeftTest() {
+        assertThrows(AssertionError.class, () -> b1.getDaysLeft());
+        b1.setPagesReadToday(10);
+        assertEquals(200, b1.getDaysLeft());
+    }
 }

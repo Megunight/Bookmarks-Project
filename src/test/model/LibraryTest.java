@@ -85,4 +85,13 @@ class LibraryTest {
         assertEquals(1, library.getIndexOfBook("Interesting"));
         assertEquals(2, library.getIndexOfBook("Forged Destiny"));
     }
+
+    @Test
+    void dailyReadingGoalTest() {
+        assertThrows(AssertionError.class, () -> library.setDailyReadingGoal(-1));
+        library.setDailyReadingGoal(10);
+        assertEquals(10, library.getDailyReadingGoal());
+        library.setDailyReadingAccum(10);
+        assertEquals(10, library.getDailyReadingAccum());
+    }
 }

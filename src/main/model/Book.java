@@ -9,6 +9,8 @@ public class Book implements Comparable<Book> {
     private boolean completed;
     private int rating = 0;
     private final String genre;
+    private int pagesReadToday;
+    private int daysLeft;
 
     public Book(String title, String author, int pageNum, int pagesRead, String genre) {
         this.title = title;
@@ -33,6 +35,17 @@ public class Book implements Comparable<Book> {
 
     public int getPagesRead() {
         return pagesRead;
+    }
+
+    public int getPagesReadToday() {
+        return pagesReadToday;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: set pages read today
+    public void setPagesReadToday(int readToday) {
+        assert readToday >= 0;
+        this.pagesReadToday = readToday;
     }
 
     //REQUIRES: has to be an integer >= 0
@@ -60,6 +73,12 @@ public class Book implements Comparable<Book> {
 
     public String getGenre() {
         return genre;
+    }
+
+    //EFFECTS: returns how many days left to read based on pages read today and number of pages left
+    public int getDaysLeft() {
+        assert pagesReadToday > 0;
+        return (pageNum - pagesRead) / pagesReadToday;
     }
 
     @Override

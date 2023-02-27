@@ -9,7 +9,9 @@ import java.util.List;
 
 // represents a list of book objects
 public class Library {
-    private final List<Book> library;
+    private List<Book> library;
+    private int dailyReadingGoal;
+    private int dailyReadingAccum;
 
     public Library() {
         library = new ArrayList<Book>();
@@ -24,6 +26,27 @@ public class Library {
             }
         }
         library.add(book);
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets daily reading goal
+    public void setDailyReadingGoal(int dailyReadingGoal) {
+        assert dailyReadingGoal >= 0;
+        this.dailyReadingGoal = dailyReadingGoal;
+    }
+
+    //MODIFIES: this
+    //EFFECTS: sets daily reading goal that has been accumulated
+    public void setDailyReadingAccum(int dailyReadingAccum) {
+        this.dailyReadingAccum = dailyReadingAccum;
+    }
+
+    public int getDailyReadingGoal() {
+        return dailyReadingGoal;
+    }
+
+    public int getDailyReadingAccum() {
+        return dailyReadingAccum;
     }
 
     //MODIFIES: this

@@ -59,6 +59,8 @@ public class LibraryApp {
         System.out.println("add - adds a book to the library");
         System.out.println("remove - removes a book from the library");
         System.out.println("rate - allows user to give rating to a book");
+        System.out.println("dailyupd - updates pages read today");
+        System.out.println("daily - daily reading goal");
         System.out.println("quit - quit the program");
     }
 
@@ -101,6 +103,24 @@ public class LibraryApp {
                     System.out.println("There is a problem with your input");
                 }
                 break;
+            case "dailyupd":
+                System.out.println("Type the title of the book you'd like to update and the amount of pages you read "
+                        + "today separated by a comma");
+                System.out.println("eg. : 1984, 20");
+                try {
+                    dailyupd();
+                } catch (RuntimeException | AssertionError e) {
+                    System.out.println("There is a problem with your input");
+                }
+                break;
+            case "daily":
+                System.out.println("Type dailyview to check on your daily reading goal, dailyset to set your daily"
+                        + " reading goal");
+                try {
+                    daily();
+                } catch (AssertionError e) {
+                    System.out.println("There is a problem with your input");
+                }
             case "quit":
                 break;
             default:
@@ -139,6 +159,9 @@ public class LibraryApp {
             System.out.println("Finished: " + b.isCompleted());
             System.out.println("Genre: " + b.getGenre());
             System.out.println("Rating: " + b.getRating());
+            if (b.getPagesReadToday() != 0) {
+                System.out.println("Days left to read at your current speed: " + b.getDaysLeft());
+            }
         }
     }
 
@@ -186,6 +209,42 @@ public class LibraryApp {
             setCurrentViewForMethods();
         } catch (BookNotFoundException e) {
             System.out.println(e.getMessage());
+        }
+    }
+
+    //MODIFIES: Book and Library
+    //EFFECT: updates pages read today, pages read, and daily reading accumulated
+    private void dailyupd() {
+        String userInput = input.nextLine();
+        ArrayList<String> amountRead = separateInput(userInput);
+        assert amountRead.size() == 2;
+
+        try {
+            int index = library.getIndexOfBook(amountRead.get(0));
+            Book book = library.getLibrary().get(index);
+            int amount = Integer.parseInt(amountRead.get(1));
+            book.setPagesReadToday(amount);
+            book.setPagesRead(book.getPagesRead() + amount);
+            library.setDailyReadingAccum(library.getDailyReadingAccum() + amount);
+        } catch (BookNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    //MODIFIES: Library
+    //EFFECT: prints out how many pages user has read today out of goal and sets daily reading goal
+    private void daily() {
+        String userInput = input.nextLine();
+        if (userInput.equalsIgnoreCase("dailyview")) {
+            System.out.println("You have read " + library.getDailyReadingAccum() + " pages out of "
+                    + library.getDailyReadingGoal() + " pages");
+        } else if (userInput.equalsIgnoreCase("dailyset")) {
+            System.out.println("Type the amount of pages you want to read daily");
+            int readingGoal = input.nextInt();
+            input.nextLine();
+            library.setDailyReadingGoal(readingGoal);
+        } else {
+            System.out.println("Seems like I didn't get that, please try again");
         }
     }
 
