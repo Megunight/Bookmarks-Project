@@ -16,7 +16,6 @@ public class Library implements Writable {
     private List<Book> library;
     private int dailyReadingGoal;
     private int dailyReadingAccum;
-    private String name;
 
     public Library() {
         library = new ArrayList<Book>();
@@ -99,7 +98,6 @@ public class Library implements Writable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("name", name);
         json.put("books", libraryToJson());
         return json;
     }

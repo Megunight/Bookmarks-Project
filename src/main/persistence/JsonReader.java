@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 
 import org.json.*;
 
+//Taken from JSON demo
+// Represents a reader that reads library from JSON data stored in file
 public class JsonReader {
     private String source;
 
@@ -20,7 +22,7 @@ public class JsonReader {
         this.source = source;
     }
 
-    // EFFECTS: reads workroom from file and returns it;
+    // EFFECTS: reads library from file and returns it;
     // throws IOException if an error occurs reading data from file
     public Library read() throws IOException, SameTitleException {
         String jsonData = readFile(source);
@@ -39,15 +41,15 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
-    // EFFECTS: parses workroom from JSON object and returns it
+    // EFFECTS: parses library from JSON object and returns it
     private Library parseLibrary(JSONObject jsonObject) throws SameTitleException {
         Library library = new Library();
         addBooks(library, jsonObject);
         return library;
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingies from JSON object and adds them to workroom
+    // MODIFIES: library
+    // EFFECTS: parses books from JSON object and adds them to library
     private void addBooks(Library library, JSONObject jsonObject) throws SameTitleException {
         JSONArray jsonArray = jsonObject.getJSONArray("books");
         for (Object json : jsonArray) {
@@ -56,8 +58,8 @@ public class JsonReader {
         }
     }
 
-    // MODIFIES: wr
-    // EFFECTS: parses thingy from JSON object and adds it to workroom
+    // MODIFIES: library
+    // EFFECTS: parses books from JSON object and adds it to library
     private void addBook(Library library, JSONObject jsonObject) throws SameTitleException {
         String title = jsonObject.getString("title");
         String author = jsonObject.getString("author");
@@ -65,10 +67,8 @@ public class JsonReader {
         int pagesRead = jsonObject.getInt("pages read");
         int rating = jsonObject.getInt("rating");
         String genre = jsonObject.getString("genre");
-        int pagesReadToday = jsonObject.getInt("pagesReadToday");
         Book b = new Book(title, author, pageNum, pagesRead, genre);
         b.setRating(rating);
-        b.setPagesReadToday(pagesReadToday);
         library.addBook(b);
     }
 }

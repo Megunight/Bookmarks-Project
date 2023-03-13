@@ -97,7 +97,6 @@ public class Book implements Comparable<Book>, Writable {
         json.put("pages read", pagesRead);
         json.put("rating", rating);
         json.put("genre", genre);
-        json.put("pages read today", pagesReadToday);
         return json;
     }
 }
