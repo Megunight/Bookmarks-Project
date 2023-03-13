@@ -1,5 +1,9 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import exceptions.BookNotFoundException;
 import exceptions.SameTitleException;
 
@@ -8,10 +12,11 @@ import java.util.Collections;
 import java.util.List;
 
 // represents a list of book objects
-public class Library {
+public class Library implements Writable {
     private List<Book> library;
     private int dailyReadingGoal;
     private int dailyReadingAccum;
+    private String name;
 
     public Library() {
         library = new ArrayList<Book>();
@@ -88,5 +93,26 @@ public class Library {
     //EFFECTS: sorts the library in terms of rating in descending order
     public void sortLibrary() {
         Collections.sort(library, Collections.reverseOrder());
+    }
+
+    //Taken from JSON demo
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("books", libraryToJson());
+        return json;
+    }
+
+    //Taken from JSON demo
+    //EFFECTS: returns things in this workroom as a JSON array
+    private JSONArray libraryToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Book b : library) {
+            jsonArray.put(b.toJson());
+        }
+
+        return jsonArray;
     }
 }

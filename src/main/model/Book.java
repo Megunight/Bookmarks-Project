@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // represents a singular book object that contains various info
-public class Book implements Comparable<Book> {
+public class Book implements Comparable<Book>, Writable {
     private final String title;
     private final String author;
     private final int pageNum;
@@ -10,7 +13,6 @@ public class Book implements Comparable<Book> {
     private int rating = 0;
     private final String genre;
     private int pagesReadToday;
-    private int daysLeft;
 
     public Book(String title, String author, int pageNum, int pagesRead, String genre) {
         this.title = title;
@@ -84,5 +86,18 @@ public class Book implements Comparable<Book> {
     @Override
     public int compareTo(Book o) {
         return Integer.compare(getRating(), o.getRating());
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("title", title);
+        json.put("author", author);
+        json.put("page number", pageNum);
+        json.put("pages read", pagesRead);
+        json.put("rating", rating);
+        json.put("genre", genre);
+        json.put("pages read today", pagesReadToday);
+        return json;
     }
 }
