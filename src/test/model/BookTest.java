@@ -84,5 +84,12 @@ class BookTest {
         assertThrows(AssertionError.class, () -> b1.getDaysLeft());
         b1.setPagesReadToday(10);
         assertEquals(200, b1.getDaysLeft());
+        try {
+            b1.setPagesReadToday(-1);
+            b1.getDaysLeft();
+            fail();
+        } catch (AssertionError e) {
+            //pass
+        }
     }
 }

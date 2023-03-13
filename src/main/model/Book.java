@@ -79,7 +79,6 @@ public class Book implements Comparable<Book>, Writable {
 
     //EFFECTS: returns how many days left to read based on pages read today and number of pages left
     public int getDaysLeft() {
-        assert pagesReadToday > 0;
         return (pageNum - pagesRead) / pagesReadToday;
     }
 
