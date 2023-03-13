@@ -21,3 +21,5 @@ The target audience for this program is people who read lots of novels or wants 
 - As a user, I want to be able to sort the books in various ways via tags and ratings etc.
 - As a user, I want to see stats on the books ex. how long to read based on my reading speed
 - As a user, I want to be able to customize the appearance of the program
+- As a user, I want to be able to save the current state of my library locally
+- As a user, I want to be able to load a state that I saved before even after quitting
