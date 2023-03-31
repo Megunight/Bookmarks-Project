@@ -92,4 +92,14 @@ class BookTest {
             //pass
         }
     }
+
+    @Test
+    void getDaysLeftTest() {
+        b1.setPagesReadToday(20);
+        assertEquals(100, b1.getDaysLeft());
+        b3.setPagesReadToday(1000);
+        assertEquals(2, b3.getDaysLeft());
+        b2.setPagesReadToday(0);
+        assertThrows(ArithmeticException.class, () -> b2.getDaysLeft());
+    }
 }
