@@ -42,3 +42,4 @@ public class LibraryFrame extends JFrame implements OperationsObserver {
         infoPanel.refreshInfo(library);
     }
 }
+//
