@@ -54,6 +54,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
     private JComboBox operationsBox;
     private JLabel goalAchieved;
 
+    // EFFECTS: creates a new OperationPanels
     public OperationPanels(Library library) {
         this.library = library;
         jsonWriter = new JsonWriter(JSON_STORE);
@@ -64,6 +65,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         styleSaveButtons();
     }
 
+    // EFFECTS: adds combo box and card panels to the panel
     private void addComboCard() {
         JPanel comboBoxPanel = new JPanel();
         String[] operations = {"Add", "Remove", "Rate", "Daily", "Daily Set"};
@@ -74,6 +76,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         addCards();
     }
 
+    // EFFECTS: adds card panels to the panel and styles them
     private void addCards() {
         cards.setLayout(new CardLayout());
         setPreferredSize(new Dimension(200, 400));
@@ -90,6 +93,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         add(cards);
     }
 
+    // EFFECTS: adds the buttons and textfields to the add panel and styles them
     private void styleAddPanel() {
         addPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
         addPanel.setPreferredSize(new Dimension(200, 400));
@@ -100,6 +104,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         addPanel.add(addBookButton);
     }
 
+    // EFFECTS: adds the buttons and textfields to the remove panel and styles them
     private void styleRemovePanel() {
         removePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
         removePanel.setPreferredSize(new Dimension(200, 400));
@@ -112,6 +117,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         removePanel.add(removeBookButton);
     }
 
+    // EFFECTS: adds the buttons and textfields to the rate panel and styles them
     private void styleRatePanel() {
         ratePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
         ratePanel.setPreferredSize(new Dimension(200, 400));
@@ -129,6 +135,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         ratePanel.add(rateBookButton);
     }
 
+    // EFFECTS: adds the buttons and textfields to the daily update panel and styles them
     private void styleDailyUpdPanel() {
         dailyUpdPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
         dailyUpdPanel.setPreferredSize(new Dimension(200, 400));
@@ -146,6 +153,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         dailyUpdPanel.add(dailyUpdButton);
     }
 
+    // EFFECTS: adds the buttons and textfields to the daily set panel and styles them
     private void styleDailySetPanel() {
         dailySetPanel.setLayout(new BorderLayout());
         dailySetPanel.setPreferredSize(new Dimension(200, 400));
@@ -166,6 +174,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         dailySetPanel.add(goalAchieved, BorderLayout.SOUTH);
     }
 
+    // EFFECTS: adds the textfields to the add panel and styles them
     private void addTextFieldsAdd() {
         JPanel textFields = new JPanel();
         textFields.setLayout(new GridLayout(5, 1));
@@ -183,6 +192,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         addPanel.add(textFields);
     }
 
+    // EFFECTS: adds the buttons save and load to the panel and styles them
     private void styleSaveButtons() {
         saveButton = new Button("Save");
         saveButton.addActionListener(this);
@@ -196,6 +206,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         add(saveLoad);
     }
 
+    // EFFECTS: looks at combo box and changes cards when selection is changed
     @Override
     public void itemStateChanged(ItemEvent e) {
         CardLayout cl = (CardLayout) (cards.getLayout());
@@ -203,6 +214,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
     }
 
     @SuppressWarnings("methodlength")
+    // EFFECTS: looks at which button is pressed and performs the appropriate action
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == addBookButton) {
@@ -271,6 +283,7 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         notifyObservers(library);
     }
 
+    // EFFECTS: adds an observer to the list of observers
     @Override
     public void addObserver(OperationsObserver o) {
         if (!observers.contains(o)) {
@@ -278,11 +291,13 @@ public class OperationPanels extends JPanel implements ItemListener, ActionListe
         }
     }
 
+    // EFFECTS: removes an observer from the list of observers
     @Override
     public void removeObserver(OperationsObserver o) {
         observers.remove(o);
     }
 
+    // EFFECTS: notifies all observers of the observer list
     @Override
     public void notifyObservers(Library library) {
         for (OperationsObserver o : observers) {

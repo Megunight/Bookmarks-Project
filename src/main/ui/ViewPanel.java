@@ -9,6 +9,7 @@ import java.awt.*;
 public class ViewPanel extends JPanel {
     private Library library;
 
+    // EFFECTS: creates a new ViewPanel
     public ViewPanel(Library library) {
         this.library = library;
         setPreferredSize(new Dimension(600, 500));
@@ -18,6 +19,8 @@ public class ViewPanel extends JPanel {
         add(new BackgroundPanel());
     }
 
+    // MODIFIES: this
+    // EFFECTS: adds a label for each book in the library
     private void libraryToLabels(Library l) {
         for (Book b: l.getLibrary()) {
             JLabel bookLabel = new JLabel(b.getTitle());
@@ -27,6 +30,8 @@ public class ViewPanel extends JPanel {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: refreshes the view panel
     public void refreshView(Library library) {
         this.library = library;
         removeAll();

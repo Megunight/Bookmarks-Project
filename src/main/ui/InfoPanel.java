@@ -17,6 +17,7 @@ public class InfoPanel extends JPanel implements ActionListener {
     private String bookTitle;
     private JPanel infoGroup;
 
+    // EFFECTS: creates a new InfoPanel
     public InfoPanel(Library library) {
         this.library = library;
         setPreferredSize(new Dimension(200, 500));
@@ -25,6 +26,7 @@ public class InfoPanel extends JPanel implements ActionListener {
         bookSearch();
     }
 
+    // EFFECTS: adds panel including search button and textfield to the info panel
     private void bookSearch() {
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
@@ -39,6 +41,7 @@ public class InfoPanel extends JPanel implements ActionListener {
     }
 
     @SuppressWarnings("methodlength")
+    // EFFECTS: adds all the necessary info from the book in the form of labels to the info panel
     private void addInfo() {
         try {
             try {
@@ -76,6 +79,8 @@ public class InfoPanel extends JPanel implements ActionListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: refreshes the info panel
     public void refreshInfo(Library library) {
         this.library = library;
         try {
@@ -86,6 +91,7 @@ public class InfoPanel extends JPanel implements ActionListener {
         revalidate();
     }
 
+    // EFFECTS: when search button is pressed, the book info is added to the info panel
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == searchButton) {
