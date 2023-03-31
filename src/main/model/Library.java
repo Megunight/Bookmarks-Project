@@ -9,6 +9,7 @@ import exceptions.SameTitleException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 // represents a list of book objects
@@ -58,9 +59,11 @@ public class Library implements Writable {
     //TODO: add exception handling for when given a title that is not in the library
     public void removeBook(String bookTitle) throws BookNotFoundException {
         boolean cannotFind = true;
-        for (Book b: library) {
+        Iterator<Book> iterator = library.iterator();
+        while (iterator.hasNext()) {
+            Book b = iterator.next();
             if (bookTitle.equalsIgnoreCase(b.getTitle())) {
-                library.remove(b);
+                iterator.remove();
                 cannotFind = false;
             }
         }
