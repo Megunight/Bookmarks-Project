@@ -48,6 +48,7 @@ public class Book implements Comparable<Book>, Writable {
     public void setPagesReadToday(int readToday) {
         assert readToday >= 0;
         this.pagesReadToday = readToday;
+        EventLog.getInstance().logEvent(new Event("Set pages read today to " + readToday + " for " + title));
     }
 
     //REQUIRES: has to be an integer >= 0
@@ -56,6 +57,7 @@ public class Book implements Comparable<Book>, Writable {
     public void setPagesRead(int pagesRead) {
         this.pagesRead = pagesRead;
         completed = pagesRead == pageNum;
+        EventLog.getInstance().logEvent(new Event("Set pages read to " + pagesRead + " for " + title));
     }
 
     public boolean isCompleted() {
@@ -71,6 +73,7 @@ public class Book implements Comparable<Book>, Writable {
     public void setRating(int rating) {
         assert (rating >= 0 && rating <= 5);
         this.rating = rating;
+        EventLog.getInstance().logEvent(new Event("Set rating to " + rating + " for " + title));
     }
 
     public String getGenre() {

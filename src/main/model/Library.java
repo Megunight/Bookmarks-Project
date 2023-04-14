@@ -31,6 +31,7 @@ public class Library implements Writable {
             }
         }
         library.add(book);
+        EventLog.getInstance().logEvent(new Event("Added " + book.getTitle() + " to library"));
     }
 
     //MODIFIES: this
@@ -38,6 +39,7 @@ public class Library implements Writable {
     public void setDailyReadingGoal(int dailyReadingGoal) {
         assert dailyReadingGoal >= 0;
         this.dailyReadingGoal = dailyReadingGoal;
+        EventLog.getInstance().logEvent(new Event("Set daily reading goal to " + dailyReadingGoal));
     }
 
     //MODIFIES: this
@@ -56,7 +58,6 @@ public class Library implements Writable {
 
     //MODIFIES: this
     //EFFECTS: removes the book with the given title from the library
-    //TODO: add exception handling for when given a title that is not in the library
     public void removeBook(String bookTitle) throws BookNotFoundException {
         boolean cannotFind = true;
         Iterator<Book> iterator = library.iterator();
@@ -65,6 +66,7 @@ public class Library implements Writable {
             if (bookTitle.equalsIgnoreCase(b.getTitle())) {
                 iterator.remove();
                 cannotFind = false;
+                EventLog.getInstance().logEvent(new Event("Removed " + bookTitle + " from library"));
             }
         }
         if (cannotFind) {

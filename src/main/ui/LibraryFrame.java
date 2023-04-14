@@ -3,11 +3,15 @@ package ui;
 import model.Book;
 import model.Library;
 import observer.OperationsObserver;
+import model.EventLog;
+import model.Event;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-public class LibraryFrame extends JFrame implements OperationsObserver {
+public class LibraryFrame extends JFrame implements OperationsObserver, WindowListener {
     private Library library = new Library();
     private OperationPanels operationPanels;
     private ViewPanel viewPanel;
@@ -29,6 +33,14 @@ public class LibraryFrame extends JFrame implements OperationsObserver {
         add(infoPanel, BorderLayout.WEST);
         pack();
         setVisible(true);
+        addWindowListener(this);
+    }
+
+    // EFFECTS: prints the event log to the console
+    public void printLog(EventLog el) {
+        for (Event e : el) {
+            System.out.println(e.toString());
+        }
     }
 
     // MODIFIES: this
@@ -45,5 +57,40 @@ public class LibraryFrame extends JFrame implements OperationsObserver {
     public void updateInfo(Library library) {
         this.library = library;
         infoPanel.refreshInfo(library);
+    }
+
+    @Override
+    public void windowOpened(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowClosing(WindowEvent e) {
+        printLog(EventLog.getInstance());
+    }
+
+    @Override
+    public void windowClosed(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowIconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeiconified(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowActivated(WindowEvent e) {
+
+    }
+
+    @Override
+    public void windowDeactivated(WindowEvent e) {
+
     }
 }

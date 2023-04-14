@@ -81,7 +81,7 @@ class BookTest {
     @Test
     void daysLeftTest() {
         b1.setPagesReadToday(0);
-        assertThrows(AssertionError.class, () -> b1.getDaysLeft());
+        assertThrows(ArithmeticException.class, () -> b1.getDaysLeft());
         b1.setPagesReadToday(10);
         assertEquals(200, b1.getDaysLeft());
         try {

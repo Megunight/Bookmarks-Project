@@ -32,3 +32,24 @@ Number of Pages field is an integer, Number of Pages Read field is an integer, a
 the view panel (center).
 - Save and load buttons will always be on the bottom right, regardless of which option is chosen.
 - Visual component is visible along the bottom of the view panel as a shelf.
+
+## Phase 4: Task 2
+
+Event{dateLogged=Thu Apr 13 18:56:34 PDT 2023, description='Added 1984 to library'}  
+Event{dateLogged=Thu Apr 13 18:56:48 PDT 2023, description='Added Chaos Theory to library'}  
+Event{dateLogged=Thu Apr 13 18:56:52 PDT 2023, description='Added Animal Farm to library'}  
+Event{dateLogged=Thu Apr 13 18:56:59 PDT 2023, description='Removed 1984 from library'}  
+Event{dateLogged=Thu Apr 13 18:57:05 PDT 2023, description='Set rating to 2 for Animal Farm'}  
+Event{dateLogged=Thu Apr 13 18:57:16 PDT 2023, description='Set pages read today to 200 for Animal Farm'}  
+Event{dateLogged=Thu Apr 13 18:57:16 PDT 2023, description='Set pages read to 201 for Animal Farm'}  
+Event{dateLogged=Thu Apr 13 18:57:27 PDT 2023, description='Set daily reading goal to 2000'}
+
+## Phase 4: Task 3
+
+One of top things I want to refactor in my project is to apply the singleton design pattern to my library class. The 
+method I use currently is to pass on the same library object through the use of a parameter in my LibraryFrame into the 
+other panels. Since the library remains the same library object, I could've used a singleton design pattern to simplify 
+the code and make it neater and reduce coupling.  
+Another part of my code I would like to refactor would be separating my panels into smaller classes, especially for my 
+OperationPanels class. This way, I can extend the functionality of the panels and make it more modular, while also 
+increasing cohesion.
